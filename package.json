@@ -1,0 +1,12 @@
+{
+  "name": "csp-tool",
+  "version": "0.1.0",
+  "description": "Content security policy tool",
+  "main": "src/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": ["content", "security", "policy", "csp", "tool"],
+  "author": "tetedacier<me@fabien-jacq.name>(https://www.fabien-jacq.name)",
+  "license": "ISC"
+}
