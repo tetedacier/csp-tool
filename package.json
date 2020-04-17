@@ -6,7 +6,13 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "keywords": ["content", "security", "policy", "csp", "tool"],
+  "keywords": [
+    "content",
+    "security",
+    "policy",
+    "csp",
+    "tool"
+  ],
   "author": "tetedacier<me@fabien-jacq.name>(https://www.fabien-jacq.name)",
   "license": "ISC"
 }
