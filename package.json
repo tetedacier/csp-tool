@@ -13,6 +13,9 @@
     "csp",
     "tool"
   ],
+  "bin": {
+    "csp-tool": "./bin"
+  },
   "author": "tetedacier<me@fabien-jacq.name>(https://www.fabien-jacq.name)",
   "license": "GPL-3.0",
   "devDependencies": {
