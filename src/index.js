@@ -58,7 +58,7 @@ const walkThroughDir = ({ dir, algorithm, resolve, reject, files } = {  }) => {
 const listClientChar = (dir, algorithm) => new Promise((resolve, reject) => {
     readdir(dir, (error, files) => {
         if(error)  {
-            throw error
+            reject(error)
         }
         walkThroughDir({ dir, algorithm, resolve, reject, files })
     })
