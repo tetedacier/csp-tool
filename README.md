@@ -66,9 +66,6 @@ Let me know if something is not working for you through the [project issues](htt
 ### getStringFingerPrint(sourceString, algorithm)
 
 ## Work in progress
-### Automatic directory depth detection
-Current depth handled is actually hard coded. This depth will be reported by the walker part of the lib.
-
 ### Tests
 Full coverage is expected for the `0.3.0` version.
 

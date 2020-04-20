@@ -10,10 +10,10 @@ const readableFileStream = ({ hash, dir, filename, resolve, input, algorithm } =
     if (data)
         hash.update(data);
     else {
-        return resolve({
+        return resolve([{
             hash: `${algorithm}-${hash.digest().toString('base64')}`,
             filename: `${dir}/${filename}`
-        })
+        }])
     }
 }
 
@@ -37,18 +37,18 @@ const walkPromise = ({ filename, algorithm, dir } = {}) => new Promise((resolve,
     input.on('error', erroredFileStream({ dir, filename, resolve, algorithm }))
 })
 
-const walkThroughDir = ({ dir, algorithm, listResolve, listReject, files } = {  }) => {
+const walkThroughDir = ({ dir, algorithm, resolve, reject, files } = {  }) => {
     Promise.all(files.map((filename) => walkPromise({ filename, algorithm, dir, filename })))
-        .then((result) => listResolve(result))
-        .catch((error) => listReject(error))
+        .then((result) => resolve(result.flat(1)))
+        .catch((error) => reject(error))
 }
 
-const listClientChar = (dir, algorithm) => new Promise((listResolve, listReject) => {
+const listClientChar = (dir, algorithm) => new Promise((resolve, reject) => {
     readdir(dir, (error, files) => {
         if(error)  {
             throw error
         }
-        walkThroughDir({ dir, algorithm, listResolve, listReject, files })
+        walkThroughDir({ dir, algorithm, resolve, reject, files })
     })
 })
 
@@ -66,15 +66,16 @@ const listClientChar = (dir, algorithm) => new Promise((listResolve, listReject)
  */
 module.exports.getFilesFingerPrint = (dirname, algorithm) => new Promise((resolve, reject) => {
     listClientChar(dirname, getEffectiveAlgorithm(algorithm))
-        .then((result) => resolve(
-            /* flattening depth must be derived from effectively discovered depth */
-            result.flat(2).reduce(
-                (acc, item) => Object.assign({
-                    [item.filename.substr(dirname.length+1)]: item.hash
-                }, acc),
-                {}
+        .then((result) => {
+            resolve(
+                result.reduce(
+                    (acc, item) => Object.assign({
+                        [item.filename.substr(dirname.length+1)]: item.hash
+                    }, acc),
+                    {}
+                )
             )
-        ))
+        })
         .catch((error) => reject(error))
 })
 
