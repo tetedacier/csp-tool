@@ -1,10 +1,10 @@
 const crypto = require('crypto')
-const hash_algorithm = process.env.CSP_HASH_ALGORITHM || 'sha256'
+const hashAlgorithm = process.env.CSP_HASH_ALGORITHM || 'sha256'
 const { readdir, createReadStream } = require('fs')
 const allowedAlgorithm = Object.freeze(['sha256', 'sha384', 'sha512'])
 
 const getEffectiveAlgorithm = (algorithm) => {
-  const detectedAlgorithm = algorithm || hash_algorithm
+  const detectedAlgorithm = algorithm || hashAlgorithm
   if (allowedAlgorithm.includes(detectedAlgorithm)) {
     return detectedAlgorithm
   }
@@ -42,7 +42,7 @@ const walkPromise = ({ filename, algorithm, dir }) => new Promise((resolve, reje
 })
 
 const walkThroughDir = ({ dir, algorithm, resolve, reject, files }) => {
-  Promise.all(files.map((filename) => walkPromise({ filename, algorithm, dir, filename })))
+  Promise.all(files.map((filename) => walkPromise({ filename, algorithm, dir })))
     .then((result) => resolve(result.flat(1)))
     .catch((error) => reject(error))
 }
