@@ -1,6 +1,9 @@
 const crypto = require('crypto');
 const hash_algorithm = process.env.CSP_HASH_ALGORITHM || 'sha256'
 const { readdir, createReadStream } = require('fs');
+const allowedAlgorithm = Object.freeze(['sha256', 'sha384', 'sha512']);
+
+const getEffectiveAlgorithm = (algorithm) => algorithm || hash_algorithm
 
 const readableFileStream = ({ hash, dir, filename, resolve, input, algorithm } = {}) => () => {
     const data = input.read();
@@ -49,31 +52,31 @@ const listClientChar = (dir, algorithm) => new Promise((listResolve, listReject)
     })
 })
 
-
-const getEffectiveAlgorithm = (algorithm) => algorithm || hash_algorithm
-
 /**
  * @method getFilesFingerPrint
- * @description Walk through given root path and produce a fingerprint using provided or default algotrithm.
+ * @description Walk through given root path and produce a fingerprint for each files recursively using provided or default algotrithm.
  * Default algorithm is `sha256`, it can be modified using `CSP_HASH_ALGORITHM` environment variable. Accepted values are:
  *  - `sha256` 
  *  - `sha384` 
  *  - `sha512` 
  * @param {String} dirname Root path to search files
  * @param {String='sha256', 'sha384', 'sha512'} algorihm Algorithm used to compute files fingerprint. 
+ * @returns {Promise} Promise object represents an object with relative path of files discovered as keys and their computed fingerprint
+ * according to the resolved algorithm
  */
-module.exports.getFilesFingerPrint = (dirname, algorithm) => {
+module.exports.getFilesFingerPrint = (dirname, algorithm) => new Promise((resolve, reject) => {
     listClientChar(dirname, getEffectiveAlgorithm(algorithm))
-        .then((result) => console.log(
-            result.flat(1).reduce( // this should be challenged through a depth report
+        .then((result) => resolve(
+            /* flattening depth must be derived from effectively discovered depth */
+            result.flat(2).reduce(
                 (acc, item) => Object.assign({
                     [item.filename.substr(dirname.length+1)]: item.hash
                 }, acc),
                 {}
             )
         ))
-        .catch((error) => console.error(error))
-}
+        .catch((error) => reject(error))
+})
 
 /**
  * @method getStringFingerPrint
