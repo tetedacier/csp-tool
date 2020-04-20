@@ -28,3 +28,11 @@ t.test(
         t.end()
     })
 )
+
+t.test(
+    'getFilesFingerPrint method reject when provided a non existing folder',
+    (t) => getFilesFingerPrint('./fixtures/t').catch(error => {
+        t.equal(error.code, 'ENOENT');
+        t.end()
+    })
+)
