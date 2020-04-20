@@ -66,15 +66,16 @@ const listClientChar = (dir, algorithm) => new Promise((listResolve, listReject)
  */
 module.exports.getFilesFingerPrint = (dirname, algorithm) => new Promise((resolve, reject) => {
     listClientChar(dirname, getEffectiveAlgorithm(algorithm))
-        .then((result) => resolve(
-            /* flattening depth must be derived from effectively discovered depth */
-            result.flat(2).reduce(
-                (acc, item) => Object.assign({
-                    [item.filename.substr(dirname.length+1)]: item.hash
-                }, acc),
-                {}
+        .then((result) => {
+            resolve(
+                result.flat(2).reduce(
+                    (acc, item) => Object.assign({
+                        [item.filename.substr(dirname.length+1)]: item.hash
+                    }, acc),
+                    {}
+                )
             )
-        ))
+        })
         .catch((error) => reject(error))
 })
 
