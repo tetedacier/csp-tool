@@ -10,10 +10,10 @@ const readableFileStream = ({ hash, dir, filename, resolve, input, algorithm } =
     if (data)
         hash.update(data);
     else {
-        return resolve({
+        return resolve([{
             hash: `${algorithm}-${hash.digest().toString('base64')}`,
             filename: `${dir}/${filename}`
-        })
+        }])
     }
 }
 
@@ -39,7 +39,7 @@ const walkPromise = ({ filename, algorithm, dir } = {}) => new Promise((resolve,
 
 const walkThroughDir = ({ dir, algorithm, resolve, reject, files } = {  }) => {
     Promise.all(files.map((filename) => walkPromise({ filename, algorithm, dir, filename })))
-        .then((result) => resolve(result))
+        .then((result) => resolve(result.flat(1)))
         .catch((error) => reject(error))
 }
 
@@ -68,7 +68,7 @@ module.exports.getFilesFingerPrint = (dirname, algorithm) => new Promise((resolv
     listClientChar(dirname, getEffectiveAlgorithm(algorithm))
         .then((result) => {
             resolve(
-                result.flat(2).reduce(
+                result.reduce(
                     (acc, item) => Object.assign({
                         [item.filename.substr(dirname.length+1)]: item.hash
                     }, acc),
