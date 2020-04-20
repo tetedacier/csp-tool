@@ -4,7 +4,7 @@
   "description": "Content security policy tool",
   "main": "src/index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "tap"
   },
   "keywords": [
     "content",
@@ -13,6 +13,12 @@
     "csp",
     "tool"
   ],
+  "bin": {
+    "csp-tool": "./bin"
+  },
   "author": "tetedacier<me@fabien-jacq.name>(https://www.fabien-jacq.name)",
-  "license": "GPL-3.0"
+  "license": "GPL-3.0",
+  "devDependencies": {
+    "tap": "^14.10.7"
+  }
 }
