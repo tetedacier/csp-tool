@@ -4,7 +4,7 @@ Content security policy management tool
 ## Goal
 Simplify "Content-Security-Policy" header generation.
 
-## Howto use
+## How to use
 
 ### Install
 As for any npm module, you can install it as a dependency of your project through
@@ -49,9 +49,9 @@ CSP_HASH_ALGORITHM=sha512 csp-tool <your-assets-folder-here>
 ```
 
 3 hash's algorithm are actually possible:
-- `SHA256`
-- `SHA384`
-- `SHA512`
+- `sha256`
+- `sha384`
+- `sha512`
 
 ### API
 There's actually two method exported by this package. I would provide their detailled signature here in future version.
@@ -67,19 +67,28 @@ Let me know if something is not working for you through the [project issues](htt
 
 ## Work in progress
 ### Tests
-I'm really sad to don't work in TDD mode at the start of this project ;(
-I plan to add this the `0.2.0` version.
+Full coverage is expected for the `0.3.0` version.
+
+### Consistant CLI exit code
+In case of any error cli tool will return an error.
+
+### JSDoc integration
+All the API will be documented in version `0.4.0`
+
+### Algorithm enforcement 
+`0.3.0` version will enforce usage of current CSP algorithm support.
 
 ### Error handling 
-Actual error handling is really flacky for this version (mainly due to the lack of test). This should be taken care in `0.2.0`.
-This will include at least:
+Actual error handling is really flacky for this version (mainly due to the lack of test).
+
+Above elements will be taken care in `0.3.0` :
 - Non directory provided to the recursive file search mode
 - No directory provideded to the recursive file search mode
 - Invalid hash's algorithm provided
 - Any error I will encounter during the test setup
 
 ### Contribution guideline
-I don't spend time on this for the `0.0.1` version. By the way, don't be rude ;)
+This will be handled in `1.0.0` version. By the way, don't be rude ;)
 
 ### New features
 First I need to provide all the above before planning anything else.

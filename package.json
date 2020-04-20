@@ -4,7 +4,7 @@
   "description": "Content security policy tool",
   "main": "src/index.js",
   "scripts": {
-    "test": "tap"
+    "test": "tap --100"
   },
   "keywords": [
     "content",
