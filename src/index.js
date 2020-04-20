@@ -1,7 +1,7 @@
-const crypto = require('crypto');
+const crypto = require('crypto')
 const hash_algorithm = process.env.CSP_HASH_ALGORITHM || 'sha256'
-const { readdir, createReadStream } = require('fs');
-const allowedAlgorithm = Object.freeze(['sha256', 'sha384', 'sha512']);
+const { readdir, createReadStream } = require('fs')
+const allowedAlgorithm = Object.freeze(['sha256', 'sha384', 'sha512'])
 
 const getEffectiveAlgorithm = (algorithm) => algorithm || hash_algorithm
 
@@ -13,7 +13,7 @@ const readableFileStream = ({ hash, dir, filename, resolve, input, algorithm } =
         return resolve({
             hash: `${algorithm}-${hash.digest().toString('base64')}`,
             filename: `${dir}/${filename}`
-        });
+        })
     }
 }
 
@@ -46,7 +46,7 @@ const walkThroughDir = ({ dir, algorithm, listResolve, listReject, files } = {  
 const listClientChar = (dir, algorithm) => new Promise((listResolve, listReject) => {
     readdir(dir, (error, files) => {
         if(error)  {
-            throw error;
+            throw error
         }
         walkThroughDir({ dir, algorithm, listResolve, listReject, files })
     })
