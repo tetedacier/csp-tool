@@ -33,14 +33,8 @@ const erroredFileStream = ({ dir, filename, resolve, reject, algorithm } = {}) =
     (error) => (error.code === 'EISDIR')
         ? listClientChar(`${dir}/${filename}`, algorithm)
             .then((listing) => resolve(listing))
-            .catch((error) => reject({
-                error,
-                filename: `${dir}/${filename}`
-            }))
-        : reject({
-            error,
-            filename: `${dir}/${filename}`
-        })
+            .catch((error) => reject(error))
+        : reject(error)
 
 const walkPromise = ({ filename, algorithm, dir } = {}) => new Promise((resolve, reject) => {
     const hash = crypto.createHash(algorithm);
