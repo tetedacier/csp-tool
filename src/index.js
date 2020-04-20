@@ -17,7 +17,7 @@ const getEffectiveAlgorithm = (algorithm) => {
     )
 }
 
-const readableFileStream = ({ hash, dir, filename, resolve, input, algorithm } = {}) => () => {
+const readableFileStream = ({ hash, dir, filename, resolve, input, algorithm }) => () => {
     const data = input.read();
     if (data)
         hash.update(data);
@@ -29,27 +29,21 @@ const readableFileStream = ({ hash, dir, filename, resolve, input, algorithm } =
     }
 }
 
-const erroredFileStream = ({ dir, filename, resolve, algorithm } = {}) =>
+const erroredFileStream = ({ dir, filename, resolve, reject, algorithm }) =>
     (error) => (error.code === 'EISDIR')
         ? listClientChar(`${dir}/${filename}`, algorithm)
             .then((listing) => resolve(listing))
-            .catch((error) => resolve({
-                error,
-                filename: `${dir}/${filename}`
-            }))
-        : resolve({
-            error,
-            filename: `${dir}/${filename}`
-        })
+            .catch((error) => reject(error))
+        : reject(error)
 
-const walkPromise = ({ filename, algorithm, dir } = {}) => new Promise((resolve, reject) => {
+const walkPromise = ({ filename, algorithm, dir }) => new Promise((resolve, reject) => {
     const hash = crypto.createHash(algorithm);
     const input = createReadStream(`${dir}/${filename}`);
     input.on('readable', readableFileStream({ hash, dir, filename, resolve, input, algorithm }));
-    input.on('error', erroredFileStream({ dir, filename, resolve, algorithm }))
+    input.on('error', erroredFileStream({ dir, filename, resolve, reject, algorithm }))
 })
 
-const walkThroughDir = ({ dir, algorithm, resolve, reject, files } = {  }) => {
+const walkThroughDir = ({ dir, algorithm, resolve, reject, files }) => {
     Promise.all(files.map((filename) => walkPromise({ filename, algorithm, dir, filename })))
         .then((result) => resolve(result.flat(1)))
         .catch((error) => reject(error))
@@ -58,7 +52,7 @@ const walkThroughDir = ({ dir, algorithm, resolve, reject, files } = {  }) => {
 const listClientChar = (dir, algorithm) => new Promise((resolve, reject) => {
     readdir(dir, (error, files) => {
         if(error)  {
-            throw error
+            return reject(error)
         }
         walkThroughDir({ dir, algorithm, resolve, reject, files })
     })
@@ -99,7 +93,7 @@ module.exports.getFilesFingerPrint = (dirname, algorithm) => new Promise((resolv
  *  - `sha384` 
  *  - `sha512` 
  * @param {String} sourceString String representing the resource
- * @param {String='sha256', 'sha384', 'sha512'} algorihm  Algorithm used to compute files fingerprint. 
+ * @param {String='sha256', 'sha384', 'sha512'} algorihm  Algorithm used to compute string fingerprint.
  * @returns {String} The computed csp fingerprint
  */
 module.exports.getStringFingerPrint = (sourceString, algorithm) => {
