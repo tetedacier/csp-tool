@@ -5,7 +5,7 @@ const {
         input,
         output
     }
-} = require('../fixtures/expectation')
+} = require('../fixtures/expectations')
 
 t.test('getStringFingerPrint method', (t) => {
     t.equal(

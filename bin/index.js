@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 
-const dirname = process.argv[2];
+const dirname = process.argv[2]
 const {
     getFilesFingerPrint
 } = require('../src')
@@ -8,5 +8,8 @@ const {
 if (dirname) {
     getFilesFingerPrint(dirname)
         .then(result => console.log(result))
-        .catch(error => console.error(error))
+        .catch(error => {
+            console.error(error)
+            process.exit(1)
+        })
 }

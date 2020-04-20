@@ -1,54 +1,60 @@
-const crypto = require('crypto');
+const crypto = require('crypto')
 const hash_algorithm = process.env.CSP_HASH_ALGORITHM || 'sha256'
-const { readdir, createReadStream } = require('fs');
-const allowedAlgorithm = Object.freeze(['sha256', 'sha384', 'sha512']);
+const { readdir, createReadStream } = require('fs')
+const allowedAlgorithm = Object.freeze(['sha256', 'sha384', 'sha512'])
 
-const getEffectiveAlgorithm = (algorithm) => algorithm || hash_algorithm
+const getEffectiveAlgorithm = (algorithm) => {
+    const detectedAlgorithm = algorithm || hash_algorithm;
+    if (allowedAlgorithm.includes(detectedAlgorithm)) {
+        return detectedAlgorithm
+    }
+    throw new RangeError(
+        `provided algorithm ${
+            detectedAlgorithm
+        } did not match Content-Security-Policy header's allowed algorithm (one of ${
+            allowedAlgorithm.map(algorithm => '`' + algorithm +'`' ).join(",")
+        })`
+    )
+}
 
-const readableFileStream = ({ hash, dir, filename, resolve, input, algorithm } = {}) => () => {
+const readableFileStream = ({ hash, dir, filename, resolve, input, algorithm }) => () => {
     const data = input.read();
     if (data)
         hash.update(data);
     else {
-        return resolve({
+        return resolve([{
             hash: `${algorithm}-${hash.digest().toString('base64')}`,
             filename: `${dir}/${filename}`
-        });
+        }])
     }
 }
 
-const erroredFileStream = ({ dir, filename, resolve, algorithm } = {}) =>
+const erroredFileStream = ({ dir, filename, resolve, reject, algorithm }) =>
     (error) => (error.code === 'EISDIR')
         ? listClientChar(`${dir}/${filename}`, algorithm)
             .then((listing) => resolve(listing))
-            .catch((error) => resolve({
-                error,
-                filename: `${dir}/${filename}`
-            }))
-        : resolve({
-            error,
-            filename: `${dir}/${filename}`
-        })
+            .catch((error) => reject(error))
+        : reject(error)
 
-const walkPromise = ({ filename, algorithm, dir } = {}) => new Promise((resolve, reject) => {
+const walkPromise = ({ filename, algorithm, dir }) => new Promise((resolve, reject) => {
     const hash = crypto.createHash(algorithm);
     const input = createReadStream(`${dir}/${filename}`);
     input.on('readable', readableFileStream({ hash, dir, filename, resolve, input, algorithm }));
-    input.on('error', erroredFileStream({ dir, filename, resolve, algorithm }))
+    input.on('error', erroredFileStream({ dir, filename, resolve, reject, algorithm }))
 })
 
-const walkThroughDir = ({ dir, algorithm, listResolve, listReject, files } = {  }) => {
+const walkThroughDir = ({ dir, algorithm, resolve, reject, files }) => {
     Promise.all(files.map((filename) => walkPromise({ filename, algorithm, dir, filename })))
-        .then((result) => listResolve(result))
-        .catch((error) => listReject(error))
+        .then((result) => resolve(result.flat(1)))
+        .catch((error) => reject(error))
 }
 
-const listClientChar = (dir, algorithm) => new Promise((listResolve, listReject) => {
+const listClientChar = (dir, algorithm) => new Promise((resolve, reject) => {
     readdir(dir, (error, files) => {
         if(error)  {
-            throw error;
+            return reject(error)
         }
-        walkThroughDir({ dir, algorithm, listResolve, listReject, files })
+        walkThroughDir({ dir, algorithm, resolve, reject, files })
     })
 })
 
@@ -66,15 +72,16 @@ const listClientChar = (dir, algorithm) => new Promise((listResolve, listReject)
  */
 module.exports.getFilesFingerPrint = (dirname, algorithm) => new Promise((resolve, reject) => {
     listClientChar(dirname, getEffectiveAlgorithm(algorithm))
-        .then((result) => resolve(
-            /* flattening depth must be derived from effectively discovered depth */
-            result.flat(2).reduce(
-                (acc, item) => Object.assign({
-                    [item.filename.substr(dirname.length+1)]: item.hash
-                }, acc),
-                {}
+        .then((result) => {
+            resolve(
+                result.reduce(
+                    (acc, item) => Object.assign({
+                        [item.filename.substr(dirname.length+1)]: item.hash
+                    }, acc),
+                    {}
+                )
             )
-        ))
+        })
         .catch((error) => reject(error))
 })
 
@@ -86,7 +93,7 @@ module.exports.getFilesFingerPrint = (dirname, algorithm) => new Promise((resolv
  *  - `sha384` 
  *  - `sha512` 
  * @param {String} sourceString String representing the resource
- * @param {String='sha256', 'sha384', 'sha512'} algorihm  Algorithm used to compute files fingerprint. 
+ * @param {String='sha256', 'sha384', 'sha512'} algorihm  Algorithm used to compute string fingerprint.
  * @returns {String} The computed csp fingerprint
  */
 module.exports.getStringFingerPrint = (sourceString, algorithm) => {

@@ -66,32 +66,12 @@ Let me know if something is not working for you through the [project issues](htt
 ### getStringFingerPrint(sourceString, algorithm)
 
 ## Work in progress
-### Tests
-Full coverage is expected for the `0.3.0` version.
-
-### Consistant CLI exit code
-In case of any error cli tool will return an error.
 
 ### JSDoc integration
 All the API will be documented in version `0.4.0`
 
-### Algorithm enforcement 
-`0.3.0` version will enforce usage of current CSP algorithm support.
-
-### Error handling 
-Actual error handling is really flacky for this version (mainly due to the lack of test).
-
-Above elements will be taken care in `0.3.0` :
-- Non directory provided to the recursive file search mode
-- No directory provideded to the recursive file search mode
-- Invalid hash's algorithm provided
-- Any error I will encounter during the test setup
-
 ### Contribution guideline
 This will be handled in `1.0.0` version. By the way, don't be rude ;)
-
-### New features
-First I need to provide all the above before planning anything else.
 
 ## References
 
