@@ -99,7 +99,7 @@ module.exports.getFilesFingerPrint = (dirname, algorithm) => new Promise((resolv
  *  - `sha384` 
  *  - `sha512` 
  * @param {String} sourceString String representing the resource
- * @param {String='sha256', 'sha384', 'sha512'} algorihm  Algorithm used to compute files fingerprint. 
+ * @param {String='sha256', 'sha384', 'sha512'} algorihm  Algorithm used to compute string fingerprint.
  * @returns {String} The computed csp fingerprint
  */
 module.exports.getStringFingerPrint = (sourceString, algorithm) => {
