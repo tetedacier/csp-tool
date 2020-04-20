@@ -78,8 +78,6 @@ Actual error handling is really flacky for this version (mainly due to the lack 
 Above elements will be taken care in `0.3.0` :
 - Non directory provided to the recursive file search mode
 - No directory provided to the recursive file search mode
-- Invalid hash's algorithm provided
-- Any error I will encounter during the test setup
 
 ### Contribution guideline
 This will be handled in `1.0.0` version. By the way, don't be rude ;)
