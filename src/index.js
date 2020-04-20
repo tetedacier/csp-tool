@@ -3,7 +3,19 @@ const hash_algorithm = process.env.CSP_HASH_ALGORITHM || 'sha256'
 const { readdir, createReadStream } = require('fs')
 const allowedAlgorithm = Object.freeze(['sha256', 'sha384', 'sha512'])
 
-const getEffectiveAlgorithm = (algorithm) => algorithm || hash_algorithm
+const getEffectiveAlgorithm = (algorithm) => {
+    const detectedAlgorithm = algorithm || hash_algorithm;
+    if (allowedAlgorithm.includes(detectedAlgorithm)) {
+        return detectedAlgorithm
+    }
+    throw new RangeError(
+        `provided algorithm ${
+            detectedAlgorithm
+        } did not match Content-Security-Policy header's allowed algorithm (one of ${
+            allowedAlgorithm.map(algorithm => '`' + algorithm +'`' ).join(",")
+        })`
+    )
+}
 
 const readableFileStream = ({ hash, dir, filename, resolve, input, algorithm } = {}) => () => {
     const data = input.read();
