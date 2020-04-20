@@ -1,6 +1,6 @@
 {
   "name": "csp-tool",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "Content security policy tool",
   "main": "src/index.js",
   "scripts": {
@@ -14,7 +14,7 @@
     "tool"
   ],
   "bin": {
-    "csp-tool": "./bin"
+    "csp-tool": "./bin/index.js"
   },
   "author": "tetedacier<me@fabien-jacq.name>(https://www.fabien-jacq.name)",
   "license": "GPL-3.0",
