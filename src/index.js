@@ -29,15 +29,15 @@ const readableFileStream = ({ hash, dir, filename, resolve, input, algorithm } =
     }
 }
 
-const erroredFileStream = ({ dir, filename, resolve, algorithm } = {}) =>
+const erroredFileStream = ({ dir, filename, resolve, reject, algorithm } = {}) =>
     (error) => (error.code === 'EISDIR')
         ? listClientChar(`${dir}/${filename}`, algorithm)
             .then((listing) => resolve(listing))
-            .catch((error) => resolve({
+            .catch((error) => reject({
                 error,
                 filename: `${dir}/${filename}`
             }))
-        : resolve({
+        : reject({
             error,
             filename: `${dir}/${filename}`
         })
@@ -46,7 +46,7 @@ const walkPromise = ({ filename, algorithm, dir } = {}) => new Promise((resolve,
     const hash = crypto.createHash(algorithm);
     const input = createReadStream(`${dir}/${filename}`);
     input.on('readable', readableFileStream({ hash, dir, filename, resolve, input, algorithm }));
-    input.on('error', erroredFileStream({ dir, filename, resolve, algorithm }))
+    input.on('error', erroredFileStream({ dir, filename, resolve, reject, algorithm }))
 })
 
 const walkThroughDir = ({ dir, algorithm, resolve, reject, files } = {  }) => {
