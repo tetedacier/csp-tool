@@ -72,10 +72,7 @@ Full coverage is expected for the `0.3.0` version.
 ### JSDoc integration
 All the API will be documented in version `0.4.0`
 
-### Algorithm enforcement
-`0.3.0` version will enforce usage of current CSP algorithm support.
-
-### Error handling 
+### Error handling
 Actual error handling is really flacky for this version (mainly due to the lack of test).
 
 Above elements will be taken care in `0.3.0` :

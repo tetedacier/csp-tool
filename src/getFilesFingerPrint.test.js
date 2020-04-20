@@ -1,7 +1,8 @@
 const t = require('tap')
 const { getFilesFingerPrint } = require('../src')
 const {
-    sha256: sha256Expectation
+    sha256: sha256Expectation,
+    zalgoError
 } = require('../fixtures/expectations')
 
 t.test(
@@ -17,5 +18,13 @@ t.test(
             )  
             t.end()
         })
+    })
+)
+
+t.test(
+    'getFilesFingerPrint method fails when called with an invalid algorithm',
+    (t) => getFilesFingerPrint('./fixtures/fs', 'zalgo').catch(error => {
+        t.equal(error.toString(), zalgoError);
+        t.end()
     })
 )
