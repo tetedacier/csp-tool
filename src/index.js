@@ -37,18 +37,18 @@ const walkPromise = ({ filename, algorithm, dir } = {}) => new Promise((resolve,
     input.on('error', erroredFileStream({ dir, filename, resolve, algorithm }))
 })
 
-const walkThroughDir = ({ dir, algorithm, listResolve, listReject, files } = {  }) => {
+const walkThroughDir = ({ dir, algorithm, resolve, reject, files } = {  }) => {
     Promise.all(files.map((filename) => walkPromise({ filename, algorithm, dir, filename })))
-        .then((result) => listResolve(result))
-        .catch((error) => listReject(error))
+        .then((result) => resolve(result))
+        .catch((error) => reject(error))
 }
 
-const listClientChar = (dir, algorithm) => new Promise((listResolve, listReject) => {
+const listClientChar = (dir, algorithm) => new Promise((resolve, reject) => {
     readdir(dir, (error, files) => {
         if(error)  {
             throw error
         }
-        walkThroughDir({ dir, algorithm, listResolve, listReject, files })
+        walkThroughDir({ dir, algorithm, resolve, reject, files })
     })
 })
 
