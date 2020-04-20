@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+
 const dirname = process.argv[2];
 const {
     getFilesFingerPrint
