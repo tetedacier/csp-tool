@@ -84,9 +84,6 @@ Above elements will be taken care in `0.3.0` :
 ### Contribution guideline
 This will be handled in `1.0.0` version. By the way, don't be rude ;)
 
-### New features
-First I need to provide all the above before planning anything else.
-
 ## References
 
 I based my work on the following document, repository and article, freely accessible on the internet:
