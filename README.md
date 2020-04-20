@@ -66,18 +66,9 @@ Let me know if something is not working for you through the [project issues](htt
 ### getStringFingerPrint(sourceString, algorithm)
 
 ## Work in progress
-### Tests
-Full coverage is expected for the `0.3.0` version.
 
 ### JSDoc integration
 All the API will be documented in version `0.4.0`
-
-### Error handling
-Actual error handling is really flacky for this version (mainly due to the lack of test).
-
-Above elements will be taken care in `0.3.0` :
-- Non directory provided to the recursive file search mode
-- No directory provided to the recursive file search mode
 
 ### Contribution guideline
 This will be handled in `1.0.0` version. By the way, don't be rude ;)
