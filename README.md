@@ -69,9 +69,6 @@ Let me know if something is not working for you through the [project issues](htt
 ### Tests
 Full coverage is expected for the `0.3.0` version.
 
-### Consistant CLI exit code
-In case of any error cli tool will return an error.
-
 ### JSDoc integration
 All the API will be documented in version `0.4.0`
 
