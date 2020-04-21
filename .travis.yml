@@ -1,0 +1,9 @@
+language: node_js
+branches:
+  only:
+  - master
+install:
+  - nvm install 12.14.1
+  - npm install -g npm@latest
+  - npm install
+after_success: npm run coverage

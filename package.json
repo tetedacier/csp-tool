@@ -1,9 +1,10 @@
 {
   "name": "csp-tool",
-  "version": "0.3.1",
+  "version": "0.3.2",
   "description": "Content security policy tool",
   "main": "src/index.js",
   "scripts": {
+    "coverage": "nyc report --reporter=text-lcov | coveralls",
     "test": "tap --100"
   },
   "keywords": [
@@ -19,10 +20,15 @@
   "author": "tetedacier<me@fabien-jacq.name>(https://www.fabien-jacq.name)",
   "license": "GPL-3.0",
   "devDependencies": {
+    "coveralls": "^3.0.11",
+    "nyc": "^15.0.1",
     "tap": "^14.10.7"
   },
-  "engines" : {
-    "node" : ">=12.14.1"
+  "engines": {
+    "node": ">=12.14.1"
   },
-  "os" : [ "darwin", "linux" ]
+  "os": [
+    "darwin",
+    "linux"
+  ]
 }

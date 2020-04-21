@@ -1,28 +1,30 @@
 # csp-tool
 [![JavaScript Style Guide](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](https://standardjs.com)
+[![Build Status](https://travis-ci.org/tetedacier/csp-tool.svg?branch=master)](https://travis-ci.org/tetedacier/csp-tool)
+[![Coverage Status](https://coveralls.io/repos/github/tetedacier/csp-tool/badge.svg?branch=master)](https://coveralls.io/github/tetedacier/csp-tool?branch=master)
+
 Content security policy management tool
 
 ## Goal
 Simplify "Content-Security-Policy" header generation.
 
 ## How to use
-
 ### Install
 As for any npm module, you can install it as a dependency of your project through
 
 ```sh
-npm i csp-tool # or yarn `
+npm i csp-tool
 ```
 
 or globally using:
 
 ```sh
-npm i -g csp-tool # or yarn
+npm i -g csp-tool
 ```
 
 ### CLI
 This packackage exibit a cli tool to generate a json file which list *every* child files of a given directory.
-To use it with the default cipher (`sha256`), in your terminal id you install it globally:
+To use it with the default cipher (`sha256`), in your terminal if you install it globally:
 
 ```sh
 csp-tool <your-assets-folder-here>
@@ -34,16 +36,16 @@ or if you install it as a dependencies of your project:
 ./node_modules/.bin/csp-tool <your-assets-folder-here>
 ```
 
-which should ouput a json formated like this :
+Execution of the cli should ouput a json formated like this in your terminal:
 
 ```json
 {
-    "<file-name-relative-to-your-assets-folder>": "<cipher-used>-<hash-of-the-file-according-to-the-cipher-user>",
+    "<file-path-relative-to-your-assets-folder>": "<cipher-used>-<hash-of-the-file-according-to-the-cipher-user>",
     ...
 }
 ```
 
-If you want to use a different cipher provide it using the `CSP_HASH_ALGORITHM` environnement variable :
+If you want to use a different cipher, provide it using the `CSP_HASH_ALGORITHM` environnement variable :
 
 ```sh
 CSP_HASH_ALGORITHM=sha512 csp-tool <your-assets-folder-here>
@@ -57,7 +59,7 @@ CSP_HASH_ALGORITHM=sha512 csp-tool <your-assets-folder-here>
 ### API
 There's actually two method exported by this package. I would provide their detailled signature here in future version.
 
-By the way it should provides you hints on how to use it in [`Microsoft Visual Studio Code ®`](https://code.visualstudio.com/) thanks to [`JSDoc`](https://jsdoc.app/).
+By the way, if `require`/`import` it in your project, hints on how to use should be provided in [`Microsoft Visual Studio Code ®`](https://code.visualstudio.com/) thanks to [`JSDoc`](https://jsdoc.app/).
 
 As far as I know it shoud also provide the same kind of hints in [WebStorm](https://www.jetbrains.com/fr-fr/webstorm).
 
@@ -68,7 +70,7 @@ Let me know if something is not working for you through the [project issues](htt
 
 ## Work in progress
 ### JSDoc integration
-All the API will be documented in version `0.4.0`
+All the API will be documented directly in the API section in version `0.4.0`
 
 ### Contribution guideline
 This will be handled in `1.0.0` version. By the way, don't be rude ;)
