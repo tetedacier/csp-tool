@@ -1,11 +1,12 @@
+language: node_js
 branches:
   only:
   - master
-  - feature/coveralls-integration
-  - develop
   - release
+  - develop
+  - feature/coveralls-integration
 install:
-  - nvm ls-remote
-#   - npm install -g npm@latest
-#   - npm install
-# after_success: npm run coverage
+  - nvm install 12.14.1
+  - npm install -g npm@latest
+  - npm install
+after_success: npm run coverage
