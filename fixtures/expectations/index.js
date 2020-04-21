@@ -8,5 +8,6 @@ module.exports = {
     input: 'test',
     output: 'sha256-n4bQgYhMfWWaL+qgxVrQFaO/TxsrC4Is0V1sFbDwCgg='
   },
-  zalgoError: "RangeError: provided algorithm zalgo did not match Content-Security-Policy header's allowed algorithm (one of `sha256`,`sha384`,`sha512`)"
+  zalgoError: "RangeError: provided algorithm zalgo did not match Content-Security-Policy header's allowed algorithm (one of `sha256`,`sha384`,`sha512`)",
+  noFolderError: 'You must provide an valid folder path to csp-tool'
 }
