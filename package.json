@@ -19,10 +19,14 @@
   "author": "tetedacier<me@fabien-jacq.name>(https://www.fabien-jacq.name)",
   "license": "GPL-3.0",
   "devDependencies": {
+    "coveralls": "^3.0.11",
     "tap": "^14.10.7"
   },
-  "engines" : {
-    "node" : ">=12.14.1"
+  "engines": {
+    "node": ">=12.14.1"
   },
-  "os" : [ "darwin", "linux" ]
+  "os": [
+    "darwin",
+    "linux"
+  ]
 }
