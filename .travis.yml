@@ -4,7 +4,6 @@ branches:
   - master
   - release
   - develop
-  - feature/coveralls-integration
 install:
   - nvm install 12.14.1
   - npm install -g npm@latest
