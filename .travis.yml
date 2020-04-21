@@ -2,7 +2,6 @@ language: node_js
 branches:
   only:
   - master
-  - release
 install:
   - nvm install 12.14.1
   - npm install -g npm@latest
