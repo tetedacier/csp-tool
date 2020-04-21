@@ -4,6 +4,7 @@
   "description": "Content security policy tool",
   "main": "src/index.js",
   "scripts": {
+    "coverage": "nyc report --reporter=text-lcov | coveralls",
     "test": "tap --100"
   },
   "keywords": [
