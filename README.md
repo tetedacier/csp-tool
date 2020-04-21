@@ -67,14 +67,6 @@ Let me know if something is not working for you through the [project issues](htt
 ### getStringFingerPrint(sourceString, algorithm)
 
 ## Work in progress
-### Test CLI
-This should be part of 0.3.1
-
-### Set package tags
-- coverall
-
-### Claim tap 100%
-
 ### JSDoc integration
 All the API will be documented in version `0.4.0`
 
