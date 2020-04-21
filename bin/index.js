@@ -2,14 +2,20 @@
 
 const dirname = process.argv[2]
 const {
-    getFilesFingerPrint
+  getFilesFingerPrint
 } = require('../src')
+const {
+  noFolderError
+} = require('../fixtures/expectations')
 
 if (dirname) {
-    getFilesFingerPrint(dirname)
-        .then(result => console.log(result))
-        .catch(error => {
-            console.error(error)
-            process.exit(1)
-        })
+  getFilesFingerPrint(dirname)
+    .then(result => console.log(JSON.stringify(result, null, 2)))
+    .catch(error => {
+      console.error(error)
+      process.exit(1)
+    })
+} else {
+  console.warn(noFolderError)
+  process.exit(1)
 }

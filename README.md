@@ -1,4 +1,5 @@
 # csp-tool
+[![JavaScript Style Guide](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](https://standardjs.com)
 Content security policy management tool
 
 ## Goal
@@ -66,7 +67,6 @@ Let me know if something is not working for you through the [project issues](htt
 ### getStringFingerPrint(sourceString, algorithm)
 
 ## Work in progress
-
 ### JSDoc integration
 All the API will be documented in version `0.4.0`
 
